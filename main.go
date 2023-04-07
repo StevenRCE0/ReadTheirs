@@ -61,7 +61,7 @@ func main() {
 	defer f.Close()
 	_, err = f.WriteString(fmt.Sprintf(`#!/bin/bash
 git clone %s .repo
-mv -f .repo/* ./
+mv -f .repo/* .repo/.* ./
 rm -rf .repo
 rm expand.sh
 git reset --hard
