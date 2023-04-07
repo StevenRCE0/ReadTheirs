@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -47,6 +48,31 @@ func main() {
 
 	// download all assets linked in the README.md file
 	err = downloadAssets(readme, u, branchName)
+	if err != nil {
+		panic(err)
+	}
+
+	// generate a bash script to rebase the upstream branch onto the local branch
+	os.Chdir(filepath.Join(".", filepath.Base(u.Path)))
+	f, err := os.Create("expand.sh")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	_, err = f.WriteString(fmt.Sprintf(`#!/bin/bash
+git clone %s .repo
+mv -f .repo/* ./
+rm -rf .repo
+rm expand.sh
+git reset --hard
+`, repoLink))
+	if err != nil {
+		panic(err)
+	}
+
+	// give it executable permissions
+	cmd := exec.Command("chmod", "+x", "expand.sh")
+	err = cmd.Run()
 	if err != nil {
 		panic(err)
 	}
