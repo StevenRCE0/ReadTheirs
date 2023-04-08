@@ -16,8 +16,8 @@ import (
 )
 
 func main() {
-	if len(os.Args) != 2 {
-		fmt.Println("Usage: go run main.go <github-repo-link> <branch-name>")
+	if len(os.Args) < 2 || len(os.Args) > 3 {
+		fmt.Println("Usage: go run main.go <github-repo-link> []branch-name]")
 		os.Exit(1)
 	}
 
