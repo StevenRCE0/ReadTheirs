@@ -21,7 +21,7 @@ var (
 	)
 
 func usage() {
-	fmt.Println("Usage: go run main.go <github-repo-link> -b [branch-name] -o [opener]")
+	fmt.Println("Usage: go run main.go [options] <github-repo-link>")
 	flag.PrintDefaults()
 }
 
