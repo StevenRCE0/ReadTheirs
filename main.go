@@ -84,7 +84,7 @@ git reset --hard
 	}
 
 	if len(opener) > 0 {
-		if strings.HasPrefix(opener, ".sh") {
+		if strings.HasSuffix(opener, ".sh") {
 			err = exec.Command("/bin/sh", opener, filepath.Join(".")).Run()
 		} else {
 			err = exec.Command(opener, filepath.Join(".")).Run()
