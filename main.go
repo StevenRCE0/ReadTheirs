@@ -11,22 +11,28 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-
+	"flag"
 	"github.com/PuerkitoBio/goquery"
 )
 
+var (
+		opener			string
+		branchName		string
+	)
+
+func usage() {
+	fmt.Println("Usage: go run main.go <github-repo-link> -b [branch-name] -o [opener]")
+	flag.PrintDefaults()
+}
+
 func main() {
-	if len(os.Args) < 2 || len(os.Args) > 3 {
-		fmt.Println("Usage: go run main.go <github-repo-link> []branch-name]")
-		os.Exit(1)
-	}
 
-	repoLink := os.Args[1]
-	branchName := "master"
+	flag.StringVar(&branchName, "b", "master", "branch of the repository")
+	flag.StringVar(&opener, "o", "", "command to open README")
+	flag.Usage = usage
+	flag.Parse()
 
-	if len(os.Args) == 3 {
-		branchName = os.Args[2]
-	}
+	repoLink := flag.Arg(0)
 
 	u, err := url.Parse(repoLink)
 	if err != nil {
@@ -75,6 +81,17 @@ git reset --hard
 	err = cmd.Run()
 	if err != nil {
 		panic(err)
+	}
+
+	if len(opener) > 0 {
+		if strings.HasPrefix(opener, ".sh") {
+			err = exec.Command("/bin/sh", opener, filepath.Join(".")).Run()
+		} else {
+			err = exec.Command(opener, filepath.Join(".")).Run()
+		}
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 
