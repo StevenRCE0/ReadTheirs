@@ -27,7 +27,7 @@ func usage() {
 
 func main() {
 
-	flag.StringVar(&branchName, "b", "master", "branch of the repository")
+	flag.StringVar(&branchName, "b", "HEAD", "branch of the repository")
 	flag.StringVar(&opener, "o", "", "command to open README")
 	flag.Usage = usage
 	flag.Parse()

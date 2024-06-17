@@ -9,7 +9,7 @@ go run main.go -b main -o zed https://github.com/StevenRCE0/ReadTheirs
 ```
 
 ...in which -b and -o are optional, but -b is
-set to "master" by default.
+set to "HEAD" by default.
 
 ## Expand
 
